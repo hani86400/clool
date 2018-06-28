@@ -1,0 +1,50 @@
+# https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+# http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
+#+--------+---------------------------------------------------------------------------+
+#| CC     | Contains the current C compiler. Defaults to cc.                          |
+#+--------+---------------------------------------------------------------------------+
+#| CFLAGS | Special options which are added to the built-in C rule. (See next page.)  |
+#+--------+---------------------------------------------------------------------------+
+#| $@     | Full name of the current target.                                          |
+#+--------+---------------------------------------------------------------------------+
+#| $?     | A list of files for current dependency which are out-of-date.             |
+#+--------+---------------------------------------------------------------------------+
+#| $<     | The source file of the current (single) dependency.                       |
+#+--------+---------------------------------------------------------------------------+
+#| $^     | The names of all the prerequisites, with spaces between them              |
+#+--------+---------------------------------------------------------------------------+
+
+IDIR = ../include
+CC = gcc
+CFLAGS=-I$(IDIR) -Wall
+
+ODIR=obj
+LDIR =../lib
+
+LIBS=-lm
+
+DEPS = lool_functions.h
+OBJ =  lool_functions.o lool_main.o
+
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+lool_test.exe: $(OBJ)
+	$(CC) $(CFLAGS)    -o $@ $^
+
+.PHONY: clean
+
+
+
+
+#           _                        
+#          | |                       
+#     ___  | |   ___    __ _   _ __  
+#    / __| | |  / _ \  / _` | | '_ \ 
+#   | (__  | | |  __/ | (_| | | | | |
+#    \___| |_|  \___|  \__,_| |_| |_|
+#                                    
+#                                    
+clean:
+	rm -f *.o *~ core lool_test.exe
+
